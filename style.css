@@ -66,6 +66,10 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
 /*SUSSY?*/
 
 .floating-button-div {
@@ -76,7 +80,7 @@ a {
 
 
 .fb {
-    background-color: #555555;
+    background-color: #555;
     color: white;
     border: none;
     border-radius: 20px;
@@ -85,4 +89,9 @@ a {
     cursor: pointer;
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
     font-weight: bold;
+    transition-duration: .4s;
+}
+
+.fb:hover{
+    background-color: #666;
 }
