@@ -50,5 +50,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function discord() {
     window.open(
-        "https://discordapp.com/users/836971531644960790", "_blank");
+        "https://discord.com/users/836971531644960790", "_blank");
 }
