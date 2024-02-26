@@ -64,9 +64,11 @@ h2:hover {
 a {
     color: inherit;
     text-decoration: none;
+    border-bottom: 1px solid #aaa;
 }
 
 a:hover {
+    border: none;
     text-decoration: underline;
 }
 
