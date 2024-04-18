@@ -10,7 +10,7 @@ html {
 body {
     /*Background*/
     background-color: black;
-    background-image: linear-gradient(to bottom right, black, #222, #888);
+    background-image: linear-gradient(to bottom right, black, #8100bf, #c100ff);
     background-repeat: no-repeat;
     background-attachment: fixed;
 
