@@ -7,7 +7,7 @@ window.addEventListener('scroll', function () {
     floatingButtonContainer.style.top = scrollY + window.innerHeight - 150 + 'px';
 });
 
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
     // Fetch the JSON file
     fetch('quotes.json')
         .then(response => response.json())
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Error fetching quotes:', error);
         });
-});
+});*/
 
 
 
