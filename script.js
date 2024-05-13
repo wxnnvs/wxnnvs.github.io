@@ -50,5 +50,5 @@ window.addEventListener('scroll', function () {
 
 function discord() {
     window.open(
-        "https://discord.com/users/836971531644960790", "_blank");
+        "https://github.com/wxnnvs", "_blank");
 }
