@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Anona'; /*a name to be used later*/
+    src: url('../Anona.otf'); /*URL to font*/
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -24,6 +29,7 @@ header {
 .logo {
     font-size: 24px;
     font-weight: bold;
+    font-family: 'Anona';
 }
 
 nav ul {
@@ -49,12 +55,12 @@ main {
     align-items: center;
     justify-content: center;
     flex: 1;
-    padding-top: 60px;
 }
 
 main h1 {
     font-size: 48px;
     margin-bottom: 40px;
+    font-family: 'Anona';
 }
 
 .projects-container {
