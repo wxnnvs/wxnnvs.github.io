@@ -111,6 +111,13 @@ main.projects h1 {
     border: 1px solid #fff;
     border-radius: 10px;
     padding: 20px;
+    transition-duration: 0.4s;
+}
+
+.project:hover {
+    border-color: #ccc;
+    background-color: #222;
+    cursor: pointer;
 }
 
 .project h2 {
