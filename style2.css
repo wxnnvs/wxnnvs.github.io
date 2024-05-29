@@ -1,6 +1,8 @@
 @font-face {
-    font-family: 'Anona'; /*a name to be used later*/
-    src: url('./Anona.otf'); /*URL to font*/
+    font-family: 'Anona';
+    /*a name to be used later*/
+    src: url('./Anona.otf');
+    /*URL to font*/
 }
 
 body {
@@ -23,7 +25,8 @@ header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Add this line to center vertically */
+    align-items: center;
+    /* Add this line to center vertically */
     padding: 0 20px;
     box-sizing: border-box;
 }
@@ -34,7 +37,10 @@ header {
     font-weight: bold;
     font-family: Anona;
     margin: 0;
+}
 
+.logo:hover {
+    text-decoration: none;
 }
 
 nav ul {
@@ -48,7 +54,7 @@ nav ul li {
     margin-left: 20px;
 }
 
-nav ul li a {
+a {
     color: #fff;
     text-decoration: underline solid #000;
     text-decoration-thickness: 2px;
@@ -56,21 +62,119 @@ nav ul li a {
     transition: text-decoration .4s ease;
 }
 
-nav ul li a:hover {
+a:hover {
     color: #fff;
     text-decoration: underline solid #fff;
     text-decoration-thickness: 2px;
 }
 
-main h1 {
+/* Home */
+
+main.home h1 {
     font-size: 100px;
     margin: 0;
     font-family: Anona;
     padding-bottom: 0;
 }
 
-main p {
+main.home p {
     font-size: 20px;
     margin-top: 0px;
     color: #ccc;
+}
+
+/* Projects */
+
+main.projects {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+main.projects h1 {
+    font-size: 48px;
+    margin-bottom: 40px;
+    font-family: 'Anona';
+}
+
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 80%;
+    max-width: 1000px;
+}
+
+.project {
+    border: 1px solid #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.project h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.project p {
+    font-size: 16px;
+    color: #ccc;
+}
+
+/* Contact */
+
+main.contact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+main.contact h1 {
+    font-size: 48px;
+    margin-bottom: 40px;
+    font-family: 'Anona';
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 400px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+}
+
+textarea {
+    height: 150px;
+    resize: none;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #ccc;
 }
