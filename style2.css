@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Anona'; /*a name to be used later*/
+    src: url('./Anona.otf'); /*URL to font*/
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -9,6 +14,7 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
+    padding: 0;
 }
 
 header {
@@ -17,13 +23,18 @@ header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    align-items: center; /* Add this line to center vertically */
+    padding: 0 20px;
     box-sizing: border-box;
 }
 
 .logo {
-    font-size: 24px;
+    position: relative;
+    font-size: 40px;
     font-weight: bold;
+    font-family: Anona;
+    margin: 0;
+
 }
 
 nav ul {
@@ -39,17 +50,27 @@ nav ul li {
 
 nav ul li a {
     color: #fff;
-    text-decoration: none;
+    text-decoration: underline solid #000;
+    text-decoration-thickness: 2px;
     font-size: 16px;
+    transition: text-decoration .4s ease;
+}
+
+nav ul li a:hover {
+    color: #fff;
+    text-decoration: underline solid #fff;
+    text-decoration-thickness: 2px;
 }
 
 main h1 {
     font-size: 100px;
     margin: 0;
+    font-family: Anona;
+    padding-bottom: 0;
 }
 
 main p {
     font-size: 20px;
-    margin-top: 10px;
+    margin-top: 0px;
     color: #ccc;
 }
