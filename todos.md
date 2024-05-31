@@ -1,2 +1,3 @@
 - [ ] Fix mobile responsiveness
 - [ ] One page site
+- [ ] Changing subtitle

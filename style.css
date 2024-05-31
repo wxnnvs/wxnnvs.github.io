@@ -203,7 +203,7 @@ button:hover {
 
 /* Responsive Design */
 
-@media (max-width: 768px) {
+@media only screen and (max-width: 768px) {
     main.home h1 {
         font-size: 60px;
     }
@@ -218,7 +218,7 @@ button:hover {
     }
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 480px) {
     main.home h1 {
         font-size: 40px;
     }
