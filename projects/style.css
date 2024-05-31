@@ -85,6 +85,20 @@ main.home p {
 
 /* Projects */
 
+.projects-container {
+    margin: 0 0 40px 0; 
+}
+
+#repos {
+    text-decoration: underline solid #fff;
+    text-decoration-thickness: 1px;
+    transition: text-decoration .4s ease;
+}
+
+#repos:hover {
+    text-decoration-thickness: 2px;
+}
+
 main.projects {
     display: flex;
     flex-direction: column;
