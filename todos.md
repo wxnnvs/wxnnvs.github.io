@@ -1,0 +1,2 @@
+- [ ] Fix mobile responsiveness
+- [ ] One page site
