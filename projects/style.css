@@ -89,16 +89,6 @@ main.home p {
     margin: 0 0 40px 0; 
 }
 
-#repos {
-    text-decoration: underline solid #fff;
-    text-decoration-thickness: 1px;
-    transition: text-decoration .4s ease;
-}
-
-#repos:hover {
-    text-decoration-thickness: 2px;
-}
-
 main.projects {
     display: flex;
     flex-direction: column;
@@ -142,6 +132,20 @@ main.projects h1 {
 .project p {
     font-size: 16px;
     color: #ccc;
+}
+
+a#repos {
+    color: #fff;
+    text-decoration: underline solid #fff;
+    text-decoration-thickness: 1px;
+    font-size: 16px;
+    transition: text-decoration-thickness .4s ease;
+}
+
+a#repos:hover {
+    color: #fff;
+    text-decoration: underline solid #fff;
+    text-decoration-thickness: 1.5px;
 }
 
 /* Contact */
