@@ -85,6 +85,10 @@ main.home p {
 
 /* Projects */
 
+.projects-container {
+    margin: 0 0 40px 0; 
+}
+
 main.projects {
     display: flex;
     flex-direction: column;
@@ -128,6 +132,20 @@ main.projects h1 {
 .project p {
     font-size: 16px;
     color: #ccc;
+}
+
+a#repos {
+    color: #fff;
+    text-decoration: underline solid #fff;
+    text-decoration-thickness: 1px;
+    font-size: 16px;
+    transition: text-decoration-thickness .4s ease;
+}
+
+a#repos:hover {
+    color: #fff;
+    text-decoration: underline solid #fff;
+    text-decoration-thickness: 1.5px;
 }
 
 /* Contact */
