@@ -75,7 +75,11 @@ document.getElementById("closeButton").addEventListener("click", () => {
 
 // Add event listener to handle button click
 document.getElementById("openUrlButton").addEventListener("click", () => {
-  const url = document.getElementById("urlInput").value;
+  var url = document.getElementById("urlInput").value;
+  // if url does not contain https
+  if (!url.startsWith("https") || url.startsWith("http")) {
+    url = "https://" + url;
+  }
   window.open(url, "_blank");
   dialog.close();
 });
