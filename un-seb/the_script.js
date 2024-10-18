@@ -10,7 +10,7 @@ const dialog = document.createElement("dialog");
 
 // Add content to the dialog
 dialog.innerHTML = `
-    <h2>SEB Hijack</h2>
+    <h2>SEB Hijack v1.O.O</h2>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
