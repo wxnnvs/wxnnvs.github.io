@@ -1,3 +1,8 @@
+// Include html2canvas library
+const script = document.createElement('script');
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js';
+document.head.appendChild(script);
+
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
   if (event.key === "F9") {
