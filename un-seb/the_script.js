@@ -15,6 +15,8 @@ dialog.innerHTML = `
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
     <button id='closeButton'>Close</button>
+    <br>
+    <button id='screenshotButton' onclick='screenshot()'>Take Screenshot (bèta)</button>
 `;
 
 // Set the dialog ID
@@ -88,3 +90,25 @@ document.getElementById("openUrlButton").addEventListener("click", () => {
 document.getElementById("exitSEB").onclick = function () {
   CefSharp.PostMessage({ type: "exitSEB" });
 };
+
+function screenshot() {
+  const screenshotTarget = document.body;
+
+  html2canvas(screenshotTarget).then((canvas) => {
+    const base64image = canvas.toDataURL("image/png");
+
+    // Create a link element
+    const link = document.createElement("a");
+
+    // Set the download attribute with a filename
+    link.download = "screenshot.png";
+
+    // Set the href to the base64 image
+    link.href = base64image;
+
+    // Append the link to the DOM, trigger the download, then remove it
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
