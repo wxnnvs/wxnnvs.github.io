@@ -22,8 +22,7 @@ dialog.innerHTML = `
     <button id='closeButton'>Close</button>
     <br>
     <hr>
-    <br>
-    <button id='screenshotButton' class="beta" onclick='screenshot()'>Take Screenshot (bèta)</button>
+    <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
 `;
 
 // Set the dialog ID
