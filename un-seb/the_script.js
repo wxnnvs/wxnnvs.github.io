@@ -106,6 +106,7 @@ document.getElementById("exitSEB").onclick = function () {
 };
 
 function screenshot() {
+  document.getElementById("SEB_Hijack").close();
   CefSharp.PostMessage({ type: "screenshot" });
   
   // const screenshotTarget = document.body;
