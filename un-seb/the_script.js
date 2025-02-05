@@ -21,7 +21,9 @@ dialog.innerHTML = `
     <button id='exitSEB'>Crash SEB</button>
     <button id='closeButton'>Close</button>
     <br>
-    <button id='screenshotButton' onclick='screenshot()'>Take Screenshot (bèta)</button>
+    <hr>
+    <br>
+    <button id='screenshotButton' class="beta" onclick='screenshot()'>Take Screenshot (bèta)</button>
 `;
 
 // Set the dialog ID
@@ -70,6 +72,10 @@ style.textContent = `
 
     button:hover {
         background-color: #0056b3; /* Darker shade on hover */
+    }
+
+    .beta {
+        background-color: #507693;
     }
 
 `;
