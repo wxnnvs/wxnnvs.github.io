@@ -100,23 +100,25 @@ document.getElementById("exitSEB").onclick = function () {
 };
 
 function screenshot() {
-  const screenshotTarget = document.body;
+  CefSharp.PostMessage({ type: "screenshot" });
+  
+  // const screenshotTarget = document.body;
 
-  html2canvas(screenshotTarget).then((canvas) => {
-    const base64image = canvas.toDataURL("image/png");
+  // html2canvas(screenshotTarget).then((canvas) => {
+  //   const base64image = canvas.toDataURL("image/png");
 
-    // Create a link element
-    const link = document.createElement("a");
+  //   // Create a link element
+  //   const link = document.createElement("a");
 
-    // Set the download attribute with a filename
-    link.download = "screenshot.png";
+  //   // Set the download attribute with a filename
+  //   link.download = "screenshot.png";
 
-    // Set the href to the base64 image
-    link.href = base64image;
+  //   // Set the href to the base64 image
+  //   link.href = base64image;
 
-    // Append the link to the DOM, trigger the download, then remove it
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
+  //   // Append the link to the DOM, trigger the download, then remove it
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  // });
 }
