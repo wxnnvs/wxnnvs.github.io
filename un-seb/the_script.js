@@ -5,12 +5,6 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "F8") {
-    CefSharp.PostMessage({ type: "menu" });
-  }
-});
-
 // Create the dialog element
 const dialog = document.createElement("dialog");
 
@@ -24,6 +18,7 @@ dialog.innerHTML = `
     <br>
     <hr>
     <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
+    <button id='devButton' class="beta" onclick='devTools()'>Open DevTools (bèta)</button>
 `;
 
 // Set the dialog ID
@@ -128,4 +123,9 @@ function screenshot() {
   //   link.click();
   //   document.body.removeChild(link);
   // });
+}
+
+function devTools() {
+  document.getElementById("SEB_Hijack").close();
+  CefSharp.PostMessage({ type: "devTools" });
 }
