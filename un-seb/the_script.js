@@ -1,8 +1,3 @@
-// Include html2canvas library
-const script = document.createElement('script');
-script.src = 'https://html2canvas.hertzen.com/dist/html2canvas.min.js';
-document.head.appendChild(script);
-
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
   if (event.key === "F9") {
@@ -15,7 +10,7 @@ const dialog = document.createElement("dialog");
 
 // Add content to the dialog
 dialog.innerHTML = `
-    <h2>SEB Hijack v1.1.0</h2>
+    <h2>SEB Hijack v1.1.1</h2>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
@@ -89,11 +84,8 @@ document.getElementById("closeButton").addEventListener("click", () => {
 document.getElementById("openUrlButton").addEventListener("click", () => {
   var url = document.getElementById("urlInput").value;
   // if url does not contain https
-  if (!url.startsWith("https://")) {
-  } else {
-    if (!url.startsWith("http://")) {
-      url = "https://" + url;
-    }
+  if (!url.startsWith("https://") || !url.startsWith("http://")) {
+    url = "https://" + url;
   }
   window.open(url, "_blank");
   dialog.close();
