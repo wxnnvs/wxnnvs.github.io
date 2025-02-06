@@ -5,6 +5,12 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+document.addEventListener("keydown", (event) => {
+  if (event.key === "F8") {
+    CefSharp.PostMessage({ type: "menu" });
+  }
+});
+
 // Create the dialog element
 const dialog = document.createElement("dialog");
 
