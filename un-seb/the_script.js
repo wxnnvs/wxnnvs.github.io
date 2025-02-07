@@ -6,12 +6,14 @@ document.addEventListener("keydown", (event) => {
 });
 
 function responseFunction(response) {
+  console.log("Response from SEB:", response);
   alert("Response from SEB:", response);
 }
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "F10") {
     CefSharp.PostMessage({ "Type": "ping", "Callback": responseFunction });
+    alert("Message sent to SEB");
   }
 });
 
