@@ -1,14 +1,17 @@
 const latest_version = "1";
+var checked = false;
 
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
   if (event.key === "F9") {
+    checked = false;
     version(latest_version);
     document.getElementById("SEB_Hijack").showModal();
   }
 });
 
 function responseFunction(response) {
+  checked = true;
   if (response == true) {
     // do nothing
   } else {
@@ -26,10 +29,15 @@ dialog.innerHTML = `
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
     <button id='closeButton'>Close</button>
-    <br>
     <hr>
-    <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
-    <button id='devButton' class="beta" onclick='devTools()'>Open DevTools (bèta)</button>
+    <details>
+        <summary>Developer Tools</summary>
+        <button id='devButton' onclick='devTools()'>Open DevTools</button>
+    </details>
+    <details>
+        <summary>Experimental</summary>
+        <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
+    </details>
 `;
 
 // Set the dialog ID
@@ -143,4 +151,10 @@ function devTools() {
 
 function version(version) {
   CefSharp.PostMessage({ type: "version", version: version });
+  // wait 2 seconds and check if the response is received
+  setTimeout(() => {
+    if (!checked) {
+      alert("You are on an old UnSEB version.\nPlease update to the latest release.");
+    }
+  }, 2000);
 }
