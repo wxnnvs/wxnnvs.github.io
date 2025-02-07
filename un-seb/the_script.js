@@ -5,6 +5,16 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function responseFunction(response) {
+  alert("Response from SEB:", response);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "F10") {
+    CefSharp.PostMessage({ type: "ping", callback: responseFunction });
+  }
+});
+
 // Create the dialog element
 const dialog = document.createElement("dialog");
 
