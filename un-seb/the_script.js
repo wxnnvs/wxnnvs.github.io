@@ -12,8 +12,7 @@ function responseFunction(response) {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "F10") {
-    CefSharp.PostMessage({ "Type": "ping", "Callback": responseFunction });
-    alert("Message sent to SEB");
+    CefSharp.PostMessage({ type: "ping"});
   }
 });
 
