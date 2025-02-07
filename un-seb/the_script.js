@@ -1,4 +1,4 @@
-const latest_version = "1";
+const latest_version = "2";
 var checked = false;
 
 // Add event listener for F9 key to open the dialog
@@ -24,7 +24,7 @@ const dialog = document.createElement("dialog");
 
 // Add content to the dialog
 dialog.innerHTML = `
-    <h2>SEB Hijack v1.1.1</h2>
+    <h2>SEB Hijack v1.2.0</h2>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
@@ -32,10 +32,12 @@ dialog.innerHTML = `
     <hr>
     <details>
         <summary>Developer Tools</summary>
+        <br>
         <button id='devButton' onclick='devTools()'>Open DevTools</button>
     </details>
     <details>
         <summary>Experimental</summary>
+        <br>
         <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
     </details>
 `;
