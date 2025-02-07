@@ -6,13 +6,16 @@ document.addEventListener("keydown", (event) => {
 });
 
 function responseFunction(response) {
-  console.log("Response from SEB:", response);
-  alert("Response from SEB:", response);
+  if (response == 1) {
+    alert("You are on the latest version: ", response);
+  } else {
+    alert("You are on an older version: ", response);
+  }
 }
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "F10") {
-    CefSharp.PostMessage({ type: "ping"});
+    CefSharp.PostMessage({ type: "version"});
   }
 });
 
