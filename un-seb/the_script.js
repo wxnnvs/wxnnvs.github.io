@@ -1,23 +1,20 @@
+const latest_version = "1";
+
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
   if (event.key === "F9") {
+    version(latest_version);
     document.getElementById("SEB_Hijack").showModal();
   }
 });
 
 function responseFunction(response) {
-  if (response == 1) {
-    alert("You are on the latest version: ", response);
+  if (response == true) {
+    // do nothing
   } else {
-    alert("You are on an older version: ", response);
+    alert("You are on an old UnSEB version.\nPlease update to the latest release.");
   }
 }
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "F10") {
-    CefSharp.PostMessage({ type: "version"});
-  }
-});
 
 // Create the dialog element
 const dialog = document.createElement("dialog");
@@ -142,4 +139,8 @@ function screenshot() {
 function devTools() {
   document.getElementById("SEB_Hijack").close();
   CefSharp.PostMessage({ type: "devTools" });
+}
+
+function version(version) {
+  CefSharp.PostMessage({ type: "version", version: version });
 }
