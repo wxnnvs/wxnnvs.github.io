@@ -31,7 +31,8 @@ const dialog = document.createElement("dialog");
 
 // Add content to the dialog
 dialog.innerHTML = `
-    <h2>SEB Hijack v1.2.0</h2>
+    <h2>SEB Hijack v1.2.1</h2>
+    <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
