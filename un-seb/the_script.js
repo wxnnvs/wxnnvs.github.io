@@ -15,7 +15,8 @@ function responseFunction(response) {
   if (response == true) {
     // do nothing
   } else {
-    alert("You are on an old UnSEB version.\nPlease update to the latest release.");
+    // this doesnt work perfectly yet for some reason
+    //alert("You are on an old UnSEB version.\nPlease update to the latest release.");
   }
 }
 
