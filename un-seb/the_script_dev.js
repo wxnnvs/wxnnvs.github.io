@@ -11,7 +11,7 @@ document.addEventListener("keydown", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "F10") {
     try {
-      callbackObj.Version(2);
+      callbackObj.version(2);
     } catch (error) {
       callbackObj.showError(String(error));
       alert("Error: " + error);
@@ -116,7 +116,7 @@ document.getElementById("openUrlButton").addEventListener("click", () => {
 
 // Add event listener to crash SEB
 document.getElementById("exitSEB").onclick = function () {
-  callbackObj.ExitSEB();
+  callbackObj.exitSEB();
 };
 
 function screenshot() {
@@ -152,7 +152,7 @@ function screenshot() {
 function devTools() {
   document.getElementById("SEB_Hijack").close();
   try {
-    callbackObj.DevTools();
+    callbackObj.devTools();
   } catch (error) {
     callbackObj.showError(String(error));
   }
@@ -160,7 +160,7 @@ function devTools() {
 
 function version(version) {
   try {
-    callbackObj.Version(version);
+    callbackObj.version(version);
   } catch (error) {
     callbackObj.showError(String(error));
   }
