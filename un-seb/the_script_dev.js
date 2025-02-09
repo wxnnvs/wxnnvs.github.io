@@ -13,7 +13,7 @@ document.addEventListener("keydown", (event) => {
     try {
       callbackObj.Version(2);
     } catch (error) {
-      console.error(error);
+      alert(error);
     }
     callbackObj.showMessage("F10 key pressed");
   }
