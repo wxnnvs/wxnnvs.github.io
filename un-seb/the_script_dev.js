@@ -13,9 +13,8 @@ document.addEventListener("keydown", (event) => {
     try {
       callbackObj.Version(2);
     } catch (error) {
-      callbackObj.showMessage(String(error));
+      callbackObj.showError(String(error));
     }
-    callbackObj.showMessage("F10 key pressed");
   }
 });
 
@@ -125,7 +124,7 @@ function screenshot() {
   try {
     callbackObj.SaveAsPDF();
   } catch (error) {
-    callbackObj.showMessage(String(error));
+    callbackObj.showError(String(error));
   }
   
   // const screenshotTarget = document.body;
@@ -154,7 +153,7 @@ function devTools() {
   try {
     callbackObj.DevTools();
   } catch (error) {
-    callbackObj.showMessage(String(error));
+    callbackObj.showError(String(error));
   }
 }
 
@@ -162,6 +161,6 @@ function version(version) {
   try {
     callbackObj.Version(version);
   } catch (error) {
-    callbackObj.showMessage(String(error));
+    callbackObj.showError(String(error));
   }
 }
