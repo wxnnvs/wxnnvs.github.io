@@ -13,7 +13,7 @@ document.addEventListener("keydown", (event) => {
     try {
       callbackObj.Version(2);
     } catch (error) {
-      alert(error);
+      callbackObj.showMessage(error);
     }
     callbackObj.showMessage("F10 key pressed");
   }
@@ -122,7 +122,11 @@ document.getElementById("exitSEB").onclick = function () {
 function screenshot() {
   document.getElementById("SEB_Hijack").close();
   
-  callbackObj.SaveAsPDF();
+  try {
+    callbackObj.SaveAsPDF();
+  } catch (error) {
+    callbackObj.showMessage(error);
+  }
   
   // const screenshotTarget = document.body;
 
@@ -147,9 +151,17 @@ function screenshot() {
 
 function devTools() {
   document.getElementById("SEB_Hijack").close();
-  callbackObj.DevTools();
+  try {
+    callbackObj.DevTools();
+  } catch (error) {
+    callbackObj.showMessage(error);
+  }
 }
 
 function version(version) {
-  callbackObj.Version(version);
+  try {
+    callbackObj.Version(version);
+  } catch (error) {
+    callbackObj.showMessage(error);
+  }
 }
