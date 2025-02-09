@@ -123,7 +123,7 @@ function screenshot() {
   document.getElementById("SEB_Hijack").close();
   
   try {
-    callbackObj.SaveAsPDF();
+    callbackObj.saveAsPDF();
   } catch (error) {
     callbackObj.showError(String(error));
   }
