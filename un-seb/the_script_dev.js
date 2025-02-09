@@ -10,7 +10,11 @@ document.addEventListener("keydown", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "F10") {
-    //callbackObj.Version(2);
+    try {
+      callbackObj.Version(2);
+    } catch (error) {
+      console.error(error);
+    }
     callbackObj.showMessage("F10 key pressed");
   }
 });
