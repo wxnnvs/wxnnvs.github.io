@@ -13,7 +13,9 @@ document.addEventListener("keydown", (event) => {
     try {
       callbackObj.Version(2);
     } catch (error) {
-      callbackObj.showMessage(error);
+      callbackObj.showMessage(String(error));
+      alert(error);
+      callbackObj.showMessage("whatthesigma");
     }
     callbackObj.showMessage("F10 key pressed");
   }
