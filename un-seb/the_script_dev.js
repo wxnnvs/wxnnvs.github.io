@@ -14,6 +14,7 @@ document.addEventListener("keydown", (event) => {
       callbackObj.Version(2);
     } catch (error) {
       callbackObj.showError(String(error));
+      alert("Error: " + error);
     }
   }
 });
