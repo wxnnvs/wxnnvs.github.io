@@ -154,11 +154,5 @@ function devTools() {
 }
 
 function version(version) {
-  CefSharp.PostMessage({ type: "version", version: version });
-  // wait 2 seconds and check if the response is received
-  setTimeout(() => {
-    if (!checked) {
-      alert("You are on an old UnSEB version.\nPlease update to the latest release.");
-    }
-  }, 2000);
+  // am i retarded?
 }
