@@ -108,7 +108,7 @@ document.getElementById("closeButton").addEventListener("click", () => {
 document.getElementById("openUrlButton").addEventListener("click", () => {
   var url = document.getElementById("urlInput").value;
   // if url does not contain https
-  if (!url.startsWith("https://") || !url.startsWith("http://")) {
+  if (!url.startsWith("https://") && !url.startsWith("http://")) {
     url = "https://" + url;
   }
   window.open(url, "_blank");
