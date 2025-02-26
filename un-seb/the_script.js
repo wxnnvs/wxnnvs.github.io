@@ -154,5 +154,5 @@ function devTools() {
 }
 
 function version(version) {
-  // am i retarded?
+  CefSharp.PostMessage({ version: version })
 }
