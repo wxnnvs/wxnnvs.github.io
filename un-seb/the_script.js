@@ -3,7 +3,7 @@ var checked = false;
 
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
-  if (event.key === "F9") {
+  if (event.key === "F9" || (event.ctrlKey && event.key === "k")) {
     checked = false;
     version(latest_version);
     document.getElementById("SEB_Hijack").showModal();
