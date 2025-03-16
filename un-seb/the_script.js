@@ -27,7 +27,7 @@ const dialog = document.createElement("dialog");
 dialog.innerHTML = `
     <h2>SEB Hijack v1.2.1</h2>
     <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
-    <a href="#" onclick="addIframe()" target="_blank">ChatGPT Iframe (do not use unless required to)</a>
+    <a href="#" onclick="addIframe()" target="_blank">add Iframe</a>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
@@ -159,13 +159,16 @@ function version(version) {
 }
 
 function addIframe() {
+  const src = prompt("Enter the URL of the iframe");
+  if (!src) return;
+
   // add some space to hide i frame when scrolled all the way up
   const space = document.createElement("div");
   space.style.height = "100px";
   document.body.appendChild(space);
 
   const iframe = document.createElement("iframe");
-  iframe.src = "https://chatgpt.com/";
+  iframe.src = src;
   iframe.style.width = "100%";
   iframe.style.height = "100%";
   iframe.style.border = "none";
