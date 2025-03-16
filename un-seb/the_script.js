@@ -183,5 +183,6 @@ function createPDf() {
 
 function showurl() {
   var url = window.location.href;
-  alert(url);
+  // show the url in the dialog
+  document.getElementById("urlInput").value = url;
 }
