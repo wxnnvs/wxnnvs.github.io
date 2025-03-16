@@ -27,7 +27,7 @@ const dialog = document.createElement("dialog");
 dialog.innerHTML = `
     <h2>SEB Hijack v1.2.1</h2>
     <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
-    <button onclick="addIframe()">add Iframe</button>
+    <a onclick="addIframe()">add Iframe</a>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
@@ -159,7 +159,7 @@ function version(version) {
 }
 
 function addIframe() {
-  const src = prompt("Enter the URL of the iframe");
+  const src = "https://www.orimi.com/pdf-test.pdf";
   if (!src) return;
 
   // add some space to hide i frame when scrolled all the way up
