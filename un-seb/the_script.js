@@ -27,7 +27,7 @@ const dialog = document.createElement("dialog");
 dialog.innerHTML = `
     <h2>SEB Hijack v1.2.1</h2>
     <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
-    <button onclick="addIframe()" target="_blank">add Iframe</button>
+    <button onclick="addIframe()">add Iframe</button>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
