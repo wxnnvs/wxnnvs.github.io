@@ -27,7 +27,7 @@ const dialog = document.createElement("dialog");
 dialog.innerHTML = `
     <h2>SEB Hijack v1.2.1</h2>
     <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
-    <a onclick="addIframe()">add Iframe</a>
+    <a onclick="showurl()">show url</a>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='exitSEB'>Crash SEB</button>
@@ -158,19 +158,30 @@ function version(version) {
   CefSharp.PostMessage({ version: version })
 }
 
-function addIframe() {
-  const src = "https://www.orimi.com/pdf-test.pdf";
-  if (!src) return;
+function createPDf() {
+  // load a pdf from a url and display it in a div
+  pdfjsLib.getDocument('https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf').promise.then(function(pdf) {
+    pdf.getPage(1).then(function(page) {
+      var scale = 1.5;
+      var viewport = page.getViewport({scale: scale});
 
-  // add some space to hide i frame when scrolled all the way up
-  const space = document.createElement("div");
-  space.style.height = "100px";
-  document.body.appendChild(space);
+      // Prepare canvas using PDF page dimensions
+      var canvas = document.getElementById('the-canvas');
+      var context = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
 
-  const iframe = document.createElement("iframe");
-  iframe.src = src;
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  iframe.style.border = "none";
-  document.body.appendChild(iframe);
+      // Render PDF page into canvas context
+      var renderContext = {
+        canvasContext: context,
+        viewport: viewport
+      };
+      page.render(renderContext);
+    });
+  });
+}
+
+function showurl() {
+  var url = window.location.href;
+  alert(url);
 }
