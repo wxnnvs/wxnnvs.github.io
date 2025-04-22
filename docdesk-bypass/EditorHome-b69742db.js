@@ -55,7 +55,7 @@ import {
   I as Ae,
   a4 as Ee,
   a5 as Te,
-} from "./index-3a7d1995.js";
+} from "https://app.docdesk.co/build/assets/index-3a7d1995.js";
 /* empty css              */ const Oe = ({ openChangeName: o }, s) => {
     const { getDesignRef: r, getDesignPageIndex: n } = J(),
       t = D(),
