@@ -25,8 +25,6 @@ var dialogInnerHTML = `
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
   if (event.key === "F9" || (event.ctrlKey && event.key === "k")) {
-    checked = false;
-    version(latest_version);
     document.getElementById("SEB_Hijack").showModal();
   }
 });
@@ -215,3 +213,8 @@ function showurl() {
   // show the url in the dialog
   document.getElementById("urlInput").value = url;
 }
+
+window.onload = function () {
+  checked = false;
+  version(latest_version);
+};
