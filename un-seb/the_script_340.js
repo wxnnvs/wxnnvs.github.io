@@ -14,6 +14,9 @@ dialog.innerHTML = `
     <input type='text' id='urlInput' placeholder='Enter URL' required>
     <button id='openUrlButton'>Open URL</button>
     <button id='closeButton'>Close</button>
+    <hr>
+    <p>You are using a custom version of Un-SEB for 3.4.0 and 3.4.1<br>
+    You wont receive updates, but that shouldnt matter because neither does 3.4.0</p>
     </details>
 `;
 
