@@ -1,30 +1,7 @@
-const latest_version = "2";
+const latest_version = "3";
 var checked = false;
 
-// Add event listener for F9 key to open the dialog
-document.addEventListener("keydown", (event) => {
-  if (event.key === "F9" || (event.ctrlKey && event.key === "k")) {
-    checked = false;
-    version(latest_version);
-    document.getElementById("SEB_Hijack").showModal();
-  }
-});
-
-function responseFunction(response) {
-  checked = true;
-  if (response == true) {
-    // do nothing
-  } else {
-    // this doesnt work perfectly yet for some reason
-    //alert("You are on an old UnSEB version.\nPlease update to the latest release.");
-  }
-}
-
-// Create the dialog element
-const dialog = document.createElement("dialog");
-
-// Add content to the dialog
-dialog.innerHTML = `
+var dialogInnerHTML = `
     <h2>SEB Hijack v1.2.1</h2>
     <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
     <a onclick="showurl()">show url</a>
@@ -44,6 +21,54 @@ dialog.innerHTML = `
         <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
     </details>
 `;
+
+// Add event listener for F9 key to open the dialog
+document.addEventListener("keydown", (event) => {
+  if (event.key === "F9" || (event.ctrlKey && event.key === "k")) {
+    checked = false;
+    version(latest_version);
+    document.getElementById("SEB_Hijack").showModal();
+  }
+});
+
+function responseFunction(response) {
+  checked = true;
+  if (response == true) {
+    // do nothing
+  } else {
+    dialogInnerHTML = `
+        <h2>SEB Hijack v1.2.1</h2>
+        <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
+        <a onclick="showurl()">show url</a>
+        <input type='text' id='urlInput' placeholder='Enter URL' required>
+        <button id='openUrlButton'>Open URL</button>
+        <button id='exitSEB'>Crash SEB</button>
+        <button id='closeButton'>Close</button>
+        <hr>
+        <p>You are using an outdated version of SEB Hijack. Please update to the latest version.<br>
+        It is recommended to update to v3.9.0_a3538f9, but be aware:<br>
+        <b>This is not marked as the latest version, but it actually is the latest.</b><br>
+        If you dont update, its not that big of a deal, but it is recommended.</p>
+        <hr>
+        <details>
+            <summary>Developer Tools</summary>
+            <br>
+            <button id='devButton' onclick='devTools()'>Open DevTools</button>
+        </details>
+        <details>
+            <summary>Experimental</summary>
+            <br>
+            <button id='screenshotButton' class="beta" onclick='screenshot()'>Save page as PDF (bèta)</button>
+        </details>
+    `;
+  }
+}
+
+// Create the dialog element
+const dialog = document.createElement("dialog");
+
+// Add content to the dialog
+dialog.innerHTML = dialogInnerHTML;
 
 // Set the dialog ID
 dialog.id = "SEB_Hijack";
@@ -123,11 +148,11 @@ document.getElementById("exitSEB").onclick = function () {
 
 function screenshot() {
   document.getElementById("SEB_Hijack").close();
-  
+
   setTimeout(() => {
     CefSharp.PostMessage({ type: "screenshot" });
   }, 1000);
-  
+
   // const screenshotTarget = document.body;
 
   // html2canvas(screenshotTarget).then((canvas) => {
@@ -155,30 +180,34 @@ function devTools() {
 }
 
 function version(version) {
-  CefSharp.PostMessage({ version: version })
+  CefSharp.PostMessage({ version: version });
 }
 
 function createPDf() {
   // load a pdf from a url and display it in a div
-  pdfjsLib.getDocument('https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf').promise.then(function(pdf) {
-    pdf.getPage(1).then(function(page) {
-      var scale = 1.5;
-      var viewport = page.getViewport({scale: scale});
+  pdfjsLib
+    .getDocument(
+      "https://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf"
+    )
+    .promise.then(function (pdf) {
+      pdf.getPage(1).then(function (page) {
+        var scale = 1.5;
+        var viewport = page.getViewport({ scale: scale });
 
-      // Prepare canvas using PDF page dimensions
-      var canvas = document.getElementById('the-canvas');
-      var context = canvas.getContext('2d');
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
+        // Prepare canvas using PDF page dimensions
+        var canvas = document.getElementById("the-canvas");
+        var context = canvas.getContext("2d");
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
 
-      // Render PDF page into canvas context
-      var renderContext = {
-        canvasContext: context,
-        viewport: viewport
-      };
-      page.render(renderContext);
+        // Render PDF page into canvas context
+        var renderContext = {
+          canvasContext: context,
+          viewport: viewport,
+        };
+        page.render(renderContext);
+      });
     });
-  });
 }
 
 function showurl() {
