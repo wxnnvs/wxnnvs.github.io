@@ -25,6 +25,8 @@ var dialogInnerHTML = `
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
   if (event.key === "F9" || (event.ctrlKey && event.key === "k")) {
+    checked = false;
+    version(latest_version);
     document.getElementById("SEB_Hijack").showModal();
   }
 });
@@ -34,7 +36,8 @@ function responseFunction(response) {
   if (response == true) {
     // do nothing
   } else {
-    dialogInnerHTML = `
+    const dialog = document.getElementById("SEB_Hijack");
+    dialog.innerHTML = `
         <h2>SEB Hijack v1.2.1</h2>
         <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
         <a onclick="showurl()">show url</a>
@@ -213,8 +216,3 @@ function showurl() {
   // show the url in the dialog
   document.getElementById("urlInput").value = url;
 }
-
-window.onload = function () {
-  checked = false;
-  version(latest_version);
-};
