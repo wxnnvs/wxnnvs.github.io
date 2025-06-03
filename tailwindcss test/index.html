@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,12 +13,14 @@
       position: relative;
       overflow: visible;
     }
+
     /* Glow overlay div for mouse glow */
     #glow-overlay {
       pointer-events: none;
       position: absolute;
       inset: 0;
-      border-radius: 1rem; /* same as card's rounded-2xl */
+      border-radius: 1rem;
+      /* same as card's rounded-2xl */
       z-index: 15;
       mix-blend-mode: screen;
       opacity: 0;
@@ -25,45 +28,32 @@
     }
   </style>
 </head>
+
 <body class="min-h-screen flex items-center justify-center p-10 bg-black relative overflow-hidden">
 
   <!-- Glowing balls container -->
   <div id="glow-container" class="absolute inset-0 -z-10 overflow-hidden">
-    <div
-      id="glow1"
-      class="absolute rounded-full opacity-70 blur-3xl w-56 h-56 bg-purple-700"
-      style="left: 10%; top: 20%;"
-    ></div>
-    <div
-      id="glow2"
-      class="absolute rounded-full opacity-60 blur-2xl w-48 h-48 bg-purple-500"
-      style="left: 70%; top: 40%;"
-    ></div>
-    <div
-      id="glow3"
-      class="absolute rounded-full opacity-50 blur-xl w-40 h-40 bg-purple-400"
-      style="left: 40%; top: 75%;"
-    ></div>
+    <div id="glow1" class="absolute rounded-full opacity-70 blur-3xl w-56 h-56 bg-purple-700"
+      style="left: 10%; top: 20%;"></div>
+    <div id="glow2" class="absolute rounded-full opacity-60 blur-2xl w-48 h-48 bg-purple-500"
+      style="left: 70%; top: 40%;"></div>
+    <div id="glow3" class="absolute rounded-full opacity-50 blur-xl w-40 h-40 bg-purple-400"
+      style="left: 40%; top: 75%;"></div>
   </div>
 
   <div class="w-full max-w-sm relative">
-    <div
-      id="tilt-card"
-      class="relative bg-white/10 dark:bg-white/5 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 cursor-pointer transition-transform duration-100 will-change-transform"
-    >
+    <div id="tilt-card"
+      class="relative bg-white/10 dark:bg-white/5 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 cursor-pointer transition-transform duration-100 will-change-transform">
       <!-- Glow overlay -->
       <div id="glow-overlay"></div>
 
-      <img
-        src="https://placehold.co/150"
-        alt="Profile pic"
-        class="rounded-full w-24 h-24 mx-auto mb-4 shadow-lg relative z-20"
-      />
+      <img src="https://placehold.co/150" alt="Profile pic"
+        class="rounded-full w-24 h-24 mx-auto mb-4 shadow-lg relative z-20" />
       <h2 class="text-xl font-bold text-center text-white relative z-20">Wannes Ghysels</h2>
       <p class="text-center text-blue-300 text-sm relative z-20">Skibidi toilet manager</p>
       <button
         class="mt-6 block mx-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white px-5 py-2 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 relative z-20"
-      >
+        onclick="alert('why you trynna contact me? freaky guy')">
         Contact
       </button>
     </div>
@@ -154,4 +144,5 @@
     requestAnimationFrame(drift);
   </script>
 </body>
+
 </html>
