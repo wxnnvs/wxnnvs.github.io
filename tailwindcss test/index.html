@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subtle Mouse Glow Card</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #tilt-card {
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      position: relative;
+      overflow: visible;
+    }
+    /* Glow overlay div for mouse glow */
+    #glow-overlay {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem; /* same as card's rounded-2xl */
+      z-index: 15;
+      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-10 bg-black relative overflow-hidden">
+
+  <!-- Glowing balls container -->
+  <div id="glow-container" class="absolute inset-0 -z-10 overflow-hidden">
+    <div
+      id="glow1"
+      class="absolute rounded-full opacity-70 blur-3xl w-56 h-56 bg-purple-700"
+      style="left: 10%; top: 20%;"
+    ></div>
+    <div
+      id="glow2"
+      class="absolute rounded-full opacity-60 blur-2xl w-48 h-48 bg-purple-500"
+      style="left: 70%; top: 40%;"
+    ></div>
+    <div
+      id="glow3"
+      class="absolute rounded-full opacity-50 blur-xl w-40 h-40 bg-purple-400"
+      style="left: 40%; top: 75%;"
+    ></div>
+  </div>
+
+  <div class="w-full max-w-sm relative">
+    <div
+      id="tilt-card"
+      class="relative bg-white/10 dark:bg-white/5 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20 cursor-pointer transition-transform duration-100 will-change-transform"
+    >
+      <!-- Glow overlay -->
+      <div id="glow-overlay"></div>
+
+      <img
+        src="https://placehold.co/150"
+        alt="Profile pic"
+        class="rounded-full w-24 h-24 mx-auto mb-4 shadow-lg relative z-20"
+      />
+      <h2 class="text-xl font-bold text-center text-white relative z-20">Wannes Ghysels</h2>
+      <p class="text-center text-blue-300 text-sm relative z-20">Skibidi toilet manager</p>
+      <button
+        class="mt-6 block mx-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white px-5 py-2 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 relative z-20"
+      >
+        Contact
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('tilt-card');
+    const glowOverlay = document.getElementById('glow-overlay');
+
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      // Tilt calculation
+      const rotateX = ((y - centerY) / centerY) * -10; // smaller tilt
+      const rotateY = ((x - centerX) / centerX) * 10;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+
+      // Glow radial gradient centered at mouse position
+      // Radius controls how far glow spreads (in px)
+      const radius = 150;
+
+      // Calculate normalized positions for gradient center (%)
+      const posX = (x / rect.width) * 100;
+      const posY = (y / rect.height) * 100;
+
+      // Set radial gradient with purple glow and smooth fade
+      glowOverlay.style.background = `
+        radial-gradient(circle at ${posX}% ${posY}%, 
+          rgba(139, 92, 246, 0.5) 0%, 
+          rgba(139, 92, 246, 0.15) 40%, 
+          rgba(139, 92, 246, 0) 80%)
+      `;
+
+      glowOverlay.style.opacity = 1;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+      glowOverlay.style.opacity = 0;
+    });
+
+    // Glowing balls slow drifting logic
+    const balls = [
+      document.getElementById('glow1'),
+      document.getElementById('glow2'),
+      document.getElementById('glow3'),
+    ];
+
+    const initialPositions = [
+      { left: 10, top: 20 },
+      { left: 70, top: 40 },
+      { left: 40, top: 75 },
+    ];
+
+    const driftRange = 5; // max % drift from initial position
+    let driftDirections = [
+      { x: 1, y: 1 },
+      { x: -1, y: 1 },
+      { x: 1, y: -1 },
+    ];
+
+    function drift() {
+      balls.forEach((ball, i) => {
+        let pos = initialPositions[i];
+        let dir = driftDirections[i];
+
+        // simple oscillation for movement
+        let newLeft = pos.left + dir.x * (Math.sin(Date.now() / 2000 + i) * driftRange);
+        let newTop = pos.top + dir.y * (Math.cos(Date.now() / 3000 + i) * driftRange);
+
+        // clamp values
+        newLeft = Math.min(Math.max(newLeft, 0), 100);
+        newTop = Math.min(Math.max(newTop, 0), 100);
+
+        balls[i].style.left = newLeft + '%';
+        balls[i].style.top = newTop + '%';
+      });
+
+      requestAnimationFrame(drift);
+    }
+
+    requestAnimationFrame(drift);
+  </script>
+</body>
+</html>
