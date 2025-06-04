@@ -64,48 +64,9 @@
   </div>
 
   <script>
-    // const card = document.getElementById('tilt-card');
-    // const glowOverlay = document.getElementById('glow-overlay');
 
-    // card.addEventListener('mousemove', (e) => {
-    //   const rect = card.getBoundingClientRect();
-    //   const x = e.clientX - rect.left;
-    //   const y = e.clientY - rect.top;
+    // GLOWING BALLS DRIFTING ANIMATION
 
-    //   const centerX = rect.width / 2;
-    //   const centerY = rect.height / 2;
-
-    //   // Tilt calculation
-    //   const rotateX = ((y - centerY) / centerY) * -10; // smaller tilt
-    //   const rotateY = ((x - centerX) / centerX) * 10;
-
-    //   card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
-
-    //   // Glow radial gradient centered at mouse position
-    //   // Radius controls how far glow spreads (in px)
-    //   const radius = 150;
-
-    //   // Calculate normalized positions for gradient center (%)
-    //   const posX = (x / rect.width) * 100;
-    //   const posY = (y / rect.height) * 100;
-
-    //   // Set radial gradient with purple glow and smooth fade
-    //   glowOverlay.style.background = `
-    //     radial-gradient(circle at ${posX}% ${posY}%, 
-    //       rgba(139, 92, 246, 0.5) 0%, 
-    //       rgba(139, 92, 246, 0.15) 40%, 
-    //       rgba(139, 92, 246, 0) 80%)
-    //   `;
-
-    //   glowOverlay.style.opacity = 1;
-    // });
-
-    // card.addEventListener('mouseleave', () => {
-    //   card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
-    //   glowOverlay.style.opacity = 0;
-    // });
-
-    // Glowing balls slow drifting logic
     const balls = [
       document.getElementById('glow1'),
       document.getElementById('glow2'),
@@ -145,6 +106,12 @@
       requestAnimationFrame(drift);
     }
 
+    // initialize the drift animation
+    requestAnimationFrame(drift);
+
+
+    // CUSTOM MODAL FUNCTIONS
+
     function showAlert(message) {
       const modal = document.getElementById('custom-modal');
       const modalMsg = document.getElementById('custom-modal-message');
@@ -169,53 +136,58 @@
       modal.classList.add('hidden');
     }
 
-    requestAnimationFrame(drift);
-  </script>
-  <script>
-    // Card data array
+    function contactModal(name, email) {
+      let msg = "You can contact " + name + " at <a href='mailto:" + email + "' class='text-blue-400 underline hover:text-blue-300 transition-colors'>" + email + "</a>";
+      showAlertHTML(msg);
+    }
+
+    function noContact(name) {
+      let msg = "Sorry, " + name + " doesnt have any contact info yet.";
+      showAlert(msg);
+    }
+
+
+    // TILT CARDS AND GLOW EFFECT
+
+    // Card data
+    // todo: read from json
     const cardsData = [
       {
         name: "Sam",
         role: "Hardware & Firmware Engineer",
-        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Sam2"
         img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=sam",
         email: "example@example.com"
       },
       {
         name: "Wannes",
         role: "Web Developer",
-        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Wannes5"
         img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=wannes"
       },
       {
         name: "Andres",
         role: "Parachute Designer",
-        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Andres2"
         img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=andres"
       },
       {
         name: "Louise",
         role: "Design & Social Media",
-        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Louise4"
         img: "https://xsgames.co/randomusers/avatar.php?g=female&seed=louise"
       },
       {
         name: "Paribes",
         role: "I forgot what this guy does",
-        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Paribes"
         img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=paribes"
       },
       {
         name: "Benito",
         role: "He has no role yet",
-        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Benito11"
         img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=benito"
       },
-      // Add more cards as needed
     ];
 
     const cardsGrid = document.getElementById('cards-grid');
 
+    // Generate each card dynamically
     cardsData.forEach((card, i) => {
       const cardId = `tilt-card-${i}`;
       const glowId = `glow-overlay-${i}`;
@@ -265,21 +237,12 @@
         glowOverlay.style.opacity = 1;
       });
 
+      // Reset transform and glow on mouse leave
       card.addEventListener('mouseleave', () => {
         card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
         glowOverlay.style.opacity = 0;
       });
     });
-
-    function contactModal(name, email) {
-      let msg = "You can contact " + name + " at <a href='mailto:" + email + "' class='text-blue-400 underline hover:text-blue-300 transition-colors'>" + email + "</a>";
-      showAlertHTML(msg);
-    }
-
-    function noContact(name) {
-      let msg = "Sorry, " + name + " doesnt have any contact info yet.";
-      showAlert(msg);
-    }
   </script>
 </body>
 
