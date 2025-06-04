@@ -29,9 +29,9 @@
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-10 bg-black relative overflow-hidden">
+<body class="min-h-screen flex items-center justify-center p-10 bg-black relative overflow-hidden select-none">
 
-  <!-- Title -->
+  <!-- </body>Title -->
   <h1 class="text-4xl font-bold text-white mb-8 mr-40">Meet the team.</h1>
 
   <!-- Glowing balls container -->
@@ -168,32 +168,38 @@
       {
         name: "Sam",
         role: "Hardware & Firmware Engineer",
-        img: "https://placehold.co/150"
+        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Sam2"
+        img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=sam"
       },
       {
         name: "Wannes",
         role: "Web Developer",
-        img: "https://placehold.co/150"
+        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Wannes5"
+        img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=wannes"
       },
       {
         name: "Andres",
         role: "Parachute Designer",
-        img: "https://placehold.co/150"
+        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Andres2"
+        img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=andres"
       },
       {
         name: "Louise",
         role: "Design & Social Media",
-        img: "https://placehold.co/150"
+        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Louise4"
+        img: "https://xsgames.co/randomusers/avatar.php?g=female&seed=louise"
       },
       {
         name: "Paribes",
         role: "I forgot what this guy does",
-        img: "https://placehold.co/150"
+        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Paribes"
+        img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=paribes"
       },
       {
         name: "Benito",
         role: "He has no role yet",
-        img: "https://placehold.co/150"
+        // img: "https://api.dicebear.com/9.x/pixel-art/png?seed=Benito11"
+        img: "https://xsgames.co/randomusers/avatar.php?g=male&seed=benito"
       },
       // Add more cards as needed
     ];
@@ -214,7 +220,7 @@
           <p class="text-center text-blue-300 text-sm relative z-20">${card.role}</p>
           <button
             class="mt-6 block mx-auto bg-gradient-to-r from-blue-500 to-purple-600 text-white px-5 py-2 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 relative z-20"
-            onclick="showAlert('${card.name} doesnt have any contact info yet.')">
+            onclick="if (!cardsData[${i}].email) { showAlert('${card.name} doesnt have any contact info yet.'); } else { startMail(cardsData[${i}].email); }">
             Contact
           </button>
         </div>
