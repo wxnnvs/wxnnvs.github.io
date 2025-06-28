@@ -190,6 +190,31 @@ Use of this tool for unethical purposes is strictly prohibited and the author ac
 </p>
         </footer>
     </main>
+   <dialog id="disclaimerDialog" open style="max-width: 600px; padding: 2rem; border-radius: 1rem;">
+  <form method="dialog">
+    <h3>Disclaimer</h3>
+    <p>
+      This project is provided strictly for educational and research purposes to demonstrate the risks of improperly configured exam software.
+      <br><br>
+      The author does not endorse, promote, or condone academic dishonesty or cheating in any form. This tool is not intended for use in actual exam environments.
+      <br><br>
+      Use of this tool for unethical purposes is strictly prohibited and the author accepts no responsibility for any misuse or resulting consequences.
+    </p>
+    <div style="text-align: right; margin-top: 1.5rem;">
+      <button id="understoodButton">Yes, I Understand</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  window.addEventListener('load', () => {
+    const dialog = document.getElementById('disclaimerDialog');
+    if (!dialog.open) dialog.showModal();
+
+    document.getElementById('understoodButton').addEventListener('click', () => {
+      dialog.close();
+    });
+  });
+</script>
 </body>
 
 </html>
