@@ -1,0 +1,27 @@
+example.com {
+	reverse_proxy :8000
+
+	handle_errors {
+		@bad_gateway expression {http.error.status_code} == 502
+		handle @bad_gateway {
+			root * /srv
+			rewrite * /
+			templates
+			file_server
+		}
+	}
+}
+
+novaglider.mooo.com {
+	reverse_proxy :3210
+
+	handle_errors {
+		@bad_gateway expression {http.error.status_code} == 502
+		handle @bad_gateway {
+			root * /srv
+			rewrite * /
+			templates
+			file_server
+		}
+	}
+}
