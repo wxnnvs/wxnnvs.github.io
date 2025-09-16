@@ -27,6 +27,25 @@
     <meta name="twitter:image" content="https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/total">
 
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+
+<style>
+  dialog#disclaimerDialog::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  dialog#disclaimerDialog {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+    z-index: 9999;
+    max-width: 600px;
+    padding: 2rem;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+    background: white;
+  }
+</style>
 </head>
 
 <body>
@@ -53,13 +72,13 @@
         <br>
         <a href="https://github.com/wxnnvs/seb-win-bypass/releases/latest" target="_blank">
             <img alt="GitHub Downloads (all assets, all releases)"
-                src="https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/total?style=for-the-badge&label=Total%20Downloads&cacheSeconds=30">
+                src="https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/latest/total">
         </a>
         <br>
         <br>
         <a href="https://github.com/wxnnvs/seb-win-bypass/releases/latest" target="_blank">
             <img alt="GitHub Downloads (specific asset, all releases)"
-                src="https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/patch-seb.exe?style=for-the-badge&cacheSeconds=30">
+                src="https://img.shields.io/github/downloads/wxnnvs/seb-win-bypass/latest/patch-seb.exe?style=for-the-badge&cacheSeconds=30">
         </a>
     </header>
     </header>
@@ -143,6 +162,11 @@
                         target="_blank">seb-win-verificator &nearr;</a>)
                 </p>
             </details>
+<details>
+<summary>How to fix it.</summary>
+A quick hotfix is just blocking access to wxnnvs.ftp.sh on the wifi. <br/>
+For a longterm, legit fix read <a href="./fix.txt">this</a>
+</details>
         </article>
         <hr>
         <article id="docs">
@@ -183,12 +207,36 @@
         <hr>
         <footer>
             <p>Build upon a project by <a href="https://safeexambrowser.org" target="_blank">Safe Exam Browser</a></p>
-            <p><b>This project is provided as a proof of concept to show the risks of opensource exam software.
-                    <br>
-                    I do not condone any forms of cheating nor can I be held liable for other peoples actions using this
-                    tool.</b></p>
+            <p><b>
+This project is provided strictly for educational and research purposes to demonstrate the risks of improperly configured exam software. <br/>
+The author does not endorse, promote, or condone academic dishonesty or cheating in any form. This tool is not intended for use in actual exam environments. <br/>
+Use of this tool for unethical purposes is strictly prohibited and the author accepts no responsibility for any misuse or resulting consequences.</b>
+</p>
         </footer>
     </main>
+   <dialog id="disclaimerDialog" open style="max-width: 600px; padding: 2rem; border-radius: 1rem;">
+    <h3>Disclaimer</h3>
+    <p>
+      This project is provided strictly for educational and research purposes to demonstrate the risks of improperly configured exam software.
+      <br><br>
+      The author does not endorse, promote, or condone academic dishonesty or cheating in any form. This tool is not intended for use in actual exam environments.
+      <br><br>
+      Use of this tool for unethical purposes is strictly prohibited and the author accepts no responsibility for any misuse or resulting consequences.
+    </p>
+    <div style="text-align: right; margin-top: 1.5rem;">
+      <button id="understoodButton">Yes, I Understand</button>
+    </div>
+</dialog>
+<script>
+  window.addEventListener('load', () => {
+    const dialog = document.getElementById('disclaimerDialog');
+    if (!dialog.open) dialog.showModal();
+
+    document.getElementById('understoodButton').addEventListener('click', () => {
+      dialog.close();
+    });
+  });
+</script>
 </body>
 
 </html>
