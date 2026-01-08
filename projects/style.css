@@ -145,6 +145,15 @@ a#repos:hover {
     text-decoration-thickness: 1.5px;
 }
 
+.project.archived {
+    border-color: #d4a017;
+    background-color: rgba(212, 160, 23, 0.15);
+}
+
+.project.archived h2 {
+    color: #d4a017;
+}
+
 /* Contact */
 
 main.contact {
