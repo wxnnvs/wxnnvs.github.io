@@ -145,13 +145,17 @@ a#repos:hover {
     text-decoration-thickness: 1.5px;
 }
 
-.project.archived {
-    border-color: #d4a017;
+.archived-badge {
+    display: inline-block;
+    padding: 2px 8px;
     background-color: rgba(212, 160, 23, 0.15);
-}
-
-.project.archived h2 {
+    border: 1px solid #d4a017;
+    border-radius: 12px;
     color: #d4a017;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: uppercase;
 }
 
 /* Contact */
