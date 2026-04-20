@@ -2,7 +2,7 @@ const latest_version = "3";
 var checked = false;
 
 var dialogInnerHTML = `
-    <h2>SEB Hijack v1.2.1</h2>
+    <h2>SEB Hijack v1.2.2 </h2>
     <a href="https://wxnnvs.ftp.sh/un-seb/troubleshoot" target="_blank">Troubleshoot</a>
     <a onclick="showurl()">show url</a>
     <input type='text' id='urlInput' placeholder='Enter URL' required>
@@ -24,7 +24,7 @@ var dialogInnerHTML = `
 
 // Add event listener for F9 key to open the dialog
 document.addEventListener("keydown", (event) => {
-  if (event.key === "F9" || (event.ctrlKey && event.key === "k")) {
+  if (event.key === "F9" || (event.ctrlKey && event.key === "k") || (event.shiftKey && event.key === "Delete")) {
     checked = false;
     version(latest_version);
     document.getElementById("SEB_Hijack").showModal();
