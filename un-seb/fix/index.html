@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEB Integrity Checks: Config Key and Browser Exam Key</title>
+<style>
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    line-height: 1.6;
+    color: #222;
+  }
+  h1, h2, h3 { line-height: 1.25; }
+  code {
+    background: #f4f4f4;
+    padding: 0.15em 0.35em;
+    border-radius: 4px;
+    font-size: 0.95em;
+  }
+  pre {
+    background: #f4f4f4;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+  }
+  pre code { background: none; padding: 0; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th { background: #f0f0f0; }
+  .note {
+    background: #fff8e1;
+    border-left: 4px solid #ffb300;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+  }
+  .warning {
+    background: #ffebee;
+    border-left: 4px solid #e53935;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+  }
+  .sources li { margin-bottom: 0.75rem; }
+  .sources a { color: #1565c0; }
+</style>
+</head>
+<body>
+
+<h1>SEB Integrity Checks: Config Key and Browser Exam Key</h1>
+
+<p>
+  A practical guide for exam platform developers who want to verify that students are using a legitimate,
+  unmodified Safe Exam Browser (SEB) installation.
+</p>
+
+<h2>1. What Are These Keys?</h2>
+
+<p>
+  <strong>Config Key (CK):</strong> Verifies that the <strong>SEB configuration</strong> (the <code>.seb</code> file settings)
+  is correct and unmodified. It does <strong>not</strong> verify the SEB application binary itself. It is platform-independent
+  (Windows, macOS, iOS generate the same CK for the same settings) and does not change when SEB is updated, as long as the
+  settings remain the same[reference:0].
+</p>
+
+<p>
+  <strong>Browser Exam Key (BEK):</strong> Verifies both the <strong>SEB configuration</strong> and the
+  <strong>SEB application binary</strong> (code signature). It changes if the SEB version changes, if the OS platform changes,
+  or if someone compiles a modified SEB with disabled restrictions. This is the stronger check because it can detect a
+  tampered SEB build[reference:1].
+</p>
+
+<div class="note">
+  <strong>Recommendation:</strong> Use <strong>Browser Exam Key</strong> whenever possible. It is the only key that detects
+  a student running a modified SEB binary. Config Key alone only ensures the settings file is correct, not that the browser
+  executable is legitimate.
+</div>
+
+<h2>2. How SEB Sends These Keys</h2>
+
+<p>
+  When SEB makes an HTTP request to your exam platform, it includes one or both of these headers, depending on your configuration:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Key Type</th>
+      <th>HTTP Header Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Browser Exam Key</td>
+      <td><code>X-SafeExamBrowser-RequestHash</code></td>
+    </tr>
+    <tr>
+      <td>Config Key</td>
+      <td><code>X-SafeExamBrowser-ConfigKeyHash</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  Both headers contain a <strong>SHA-256 hash</strong> of the URL of the request <strong>concatenated with the key</strong>.
+  This means the hash changes for every URL, keeping the key secret from network sniffers[reference:2][reference:3].
+</p>
+
+<p><strong>Header value format (example):</strong></p>
+
+<pre><code>X-SafeExamBrowser-RequestHash = 81aad4ab9dfd447cc479e6a4a7c9a544e2cafc7f3adeb68b2a21efad68eca4dc</code></pre>
+
+<h2>3. How Verification Works on the Server</h2>
+
+<p>For each incoming request, your exam platform must:</p>
+
+<ol>
+  <li><strong>Extract</strong> the header value, for example <code>X-SafeExamBrowser-RequestHash</code>.</li>
+  <li>
+    <strong>Reconstruct</strong> the expected hash:
+    <ul>
+      <li>Concatenate the <strong>full request URL</strong> with the <strong>stored key</strong> (BEK or CK).</li>
+      <li>
+        Important: The URL must match <strong>exactly</strong> what SEB used. This includes the protocol (<code>https://</code>),
+        host, path, and query string. A mismatch (for example, <code>example.com</code> vs <code>www.example.com</code>)
+        will cause verification to fail[reference:4].
+      </li>
+    </ul>
+  </li>
+  <li><strong>Hash</strong> the concatenated string using SHA-256.</li>
+  <li><strong>Compare</strong> the computed hash with the header value.</li>
+</ol>
+
+<h3>Concatenation Order</h3>
+
+<ul>
+  <li><strong>For Config Key:</strong> <code>URL + ConfigKey</code> (URL first, then key)[reference:5].</li>
+  <li><strong>For Browser Exam Key:</strong> <code>URL + BrowserExamKey</code> (same order)[reference:6].</li>
+</ul>
+
+<h3>Pseudocode</h3>
+
+<pre><code>function verifySEBRequest(requestURL, storedKey, receivedHeaderValue):
+    combined = requestURL + storedKey
+    computedHash = SHA256(combined).hex()
+    return computedHash == receivedHeaderValue</code></pre>
+
+<p>
+  <strong>Important:</strong> Remove any <code>#fragment</code> from the URL before hashing.
+</p>
+
+<h2>4. How to Generate the Keys Server-Side</h2>
+
+<p>
+  If your exam platform generates <code>.seb</code> configuration files automatically, you should also generate the
+  corresponding Config Key and Browser Exam Key server-side. This avoids manual copy-paste errors[reference:7].
+</p>
+
+<h3>Config Key Generation</h3>
+
+<p>The Config Key is computed from the <strong>SEB settings dictionary</strong>. The algorithm is:</p>
+
+<ol>
+  <li>Parse the <code>.seb</code> configuration (an XML plist or JSON structure)[reference:8].</li>
+  <li>Set <code>sebConfigPurpose</code> to the value used for starting an exam[reference:9].</li>
+  <li>Serialize the settings dictionary in <strong>SEB's deterministic order</strong> (using .NET's <code>StringComparer.InvariantCulture</code> ordering)[reference:10].</li>
+  <li><strong>Skip</strong> the <code>originatorVersion</code> field[reference:11].</li>
+  <li>Compute a <strong>SHA-256 hash</strong> of the resulting byte string[reference:12].</li>
+</ol>
+
+<p>This produces a 64-character hex string.</p>
+
+<div class="warning">
+  <strong>Critical detail:</strong> SEB does <strong>not</strong> use standard JSON for hashing. It uses a "JSON-ish" format
+  called <strong>SEB-JSON</strong> where string contents are written <strong>without character escaping</strong>. For example,
+  a string containing a quotation mark is written as-is, not escaped. Using a standard JSON encoder will produce a different hash[reference:13].
+</div>
+
+<h3>Browser Exam Key Generation</h3>
+
+<p>The Browser Exam Key adds a <strong>code signature of the SEB application</strong> to the mix:</p>
+
+<ol>
+  <li>Start with the same settings dictionary used for Config Key.</li>
+  <li>Add a <strong>code signature</strong> of the SEB application (binaries and resources). How this signature is generated is platform-specific[reference:14].</li>
+  <li>Add a <strong>salt value</strong>, generated randomly each time a <code>.seb</code> file is saved[reference:15].</li>
+  <li>Compute SHA-256 of the combined result.</li>
+</ol>
+
+<p>
+  Because the code signature differs per platform and per SEB version, you need a <strong>separate BEK for each platform</strong>
+  (Windows, macOS, iOS) that your exam supports[reference:16].
+</p>
+
+<h2>5. Implementation Checklist for Your Exam Platform</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Step</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Enable SEB to send keys: In your <code>.seb</code> config, set <code>sendBrowserExamKey = true</code>[reference:17].</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Store the expected BEK and/or CK in your exam settings (per quiz/exam).</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>On every exam page request, check for the <code>X-SafeExamBrowser-RequestHash</code> and/or <code>X-SafeExamBrowser-ConfigKeyHash</code> headers.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Reconstruct the hash using the <strong>exact request URL</strong> and the stored key.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Compare the computed hash with the header value. If they don't match, deny access.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>If using Config Key, generate it server-side from your <code>.seb</code> file to avoid manual errors[reference:18].</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Password-lock your <code>.seb</code> config files so students cannot extract and reuse the keys.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>6. Common Pitfalls</h2>
+
+<ul>
+  <li>
+    <strong>URL mismatch:</strong> The URL on the client and server must be byte-identical. Check for <code>www.</code> prefixes,
+    trailing slashes, and protocol differences (<code>http</code> vs <code>https</code>).
+  </li>
+  <li>
+    <strong>Using standard JSON for Config Key:</strong> SEB-JSON does not escape strings. Using <code>json_encode()</code> in PHP
+    or <code>JSON.stringify()</code> in JavaScript will produce the wrong hash[reference:19].
+  </li>
+  <li>
+    <strong>Checking only Config Key:</strong> A student with a modified SEB binary will still pass the Config Key check because
+    the settings are unchanged. Always prefer Browser Exam Key for high-stakes exams[reference:20].
+  </li>
+  <li>
+    <strong>Missing keys in SPAs:</strong> If your exam is a single-page application, SEB will not update the hash for client-side
+    route changes. Ensure the URL used for verification reflects the correct state[reference:21].
+  </li>
+</ul>
+
+<h2>7. Reference Implementations</h2>
+
+<ul>
+  <li>
+    <strong>Moodle:</strong> The <code>quizaccess_seb</code> plugin implements both CK and BEK verification. It defines the header
+    constants and performs the SHA-256 hash comparison in the <code>access_manager</code> class.
+  </li>
+  <li>
+    <strong>Node.js:</strong> The <code>@certible/seb-node</code> package provides <code>generateConfigKey()</code> and
+    <code>verifyConfigKeyHash()</code> functions for server-side use[reference:22].
+  </li>
+  <li>
+    <strong>PHP:</strong> The <code>cameron1729/seb-json</code> package encodes PHP data structures into the correct SEB-JSON
+    byte format for Config Key generation[reference:23].
+  </li>
+</ul>
+
+<h2>8. Summary</h2>
+
+<p>
+  The Config Key verifies the <strong>settings</strong>. The Browser Exam Key verifies the <strong>settings plus the SEB binary</strong>.
+  Both are sent as SHA-256 hashes of the request URL concatenated with the key. Your exam platform must reconstruct this hash
+  using the exact URL and compare it to the header value. For strong security, use <strong>Browser Exam Key</strong> and generate
+  the keys server-side to eliminate manual errors.
+</p>
+
+<hr>
+
+<h2>Sources &amp; References</h2>
+
+<ul class="sources">
+  <li>
+    <strong>Safe Exam Browser — Developer Documentation: Config Key.</strong>
+    Official specification for the Config Key feature, including header format, generation rules, and server-side verification steps.
+    <a href="https://safeexambrowser.org/developer/seb-config-key.html" target="_blank" rel="noopener">
+      https://safeexambrowser.org/developer/seb-config-key.html
+    </a>
+  </li>
+
+  <li>
+    <strong>Safe Exam Browser — Specification: Browser Exam Key (PDF).</strong>
+    Official specification for the Browser Exam Key, covering code signatures, platform-specific keys, and the request hash mechanism.
+    <a href="https://safeexambrowser.org/developer/documents/SEB-Specification-BrowserExamKey.pdf" target="_blank" rel="noopener">
+      https://safeexambrowser.org/developer/documents/SEB-Specification-BrowserExamKey.pdf
+    </a>
+  </li>
+
+  <li>
+    <strong>Moodle Documentation — Safe Exam Browser.</strong>
+    Moodle's integration guide, describing the <code>quizaccess_seb</code> plugin, Browser Exam Key configuration in quiz settings,
+    and behavior when SEB is upgraded.
+    <a href="https://docs.moodle.org/500/en/Safe_Exam_Browser" target="_blank" rel="noopener">
+      https://docs.moodle.org/500/en/Safe_Exam_Browser
+    </a>
+  </li>
+
+  <li>
+    <strong>BookWidgets — How to take secure digital student exams with BookWidgets and Safe Exam Browser.</strong>
+    Practical guide showing how an external exam platform integrates SEB, including configuration steps and LMS compatibility notes.
+    <a href="https://www.bookwidgets.com/blog/2020/11/how-to-take-secure-digital-student-exams-with-bookwidgets-and-safe-exam-browser" target="_blank" rel="noopener">
+      https://www.bookwidgets.com/blog/2020/11/how-to-take-secure-digital-student-exams-with-bookwidgets-and-safe-exam-browser
+    </a>
+  </li>
+
+  <li>
+    <strong>Johannes Titz — "SEB Config Keys, R Logs, and Clever Shortcuts".</strong>
+    Detailed reverse-engineering notes on the Config Key generation algorithm, including deterministic ordering,
+    <code>originatorVersion</code> skipping, and .NET <code>StringComparer.InvariantCulture</code> sorting.
+    <a href="https://johannestitz.com/post/2026-07-10-seb-config-key-r-logs/" target="_blank" rel="noopener">
+      https://johannestitz.com/post/2026-07-10-seb-config-key-r-logs/
+    </a>
+  </li>
+
+  <li>
+    <strong>@certible/seb-node (npm).</strong>
+    TypeScript library for generating SEB configuration files, computing Config Keys, and verifying request hashes in Node.js.
+    <a href="https://www.npmjs.com/package/@certible/seb-node" target="_blank" rel="noopener">
+      https://www.npmjs.com/package/@certible/seb-node
+    </a>
+  </li>
+
+  <li>
+    <strong>cameron1729/seb-json (Packagist).</strong>
+    PHP encoder for SEB-JSON, explaining why standard JSON encoders produce incorrect Config Keys and how to write strings
+    without character escaping.
+    <a href="https://packagist.org/packages/cameron1729/seb-json" target="_blank" rel="noopener">
+      https://packagist.org/packages/cameron1729/seb-json
+    </a>
+  </li>
+
+  <li>
+    <strong>KU Leuven — SEB documentation for Toledo exam platform (Dutch).</strong>
+    Institutional implementation example showing how a university exam platform verifies SEB keys.
+    <a href="https://www.kuleuven.be/onderwijs/learninglab/ondersteuning/tools-multimedia/toledopedia/ans/assets/seb-doc-expert-nl.pdf" target="_blank" rel="noopener">
+      https://www.kuleuven.be/onderwijs/learninglab/ondersteuning/tools-multimedia/toledopedia/ans/assets/seb-doc-expert-nl.pdf
+    </a>
+  </li>
+</ul>
+
+</body>
+</html>
